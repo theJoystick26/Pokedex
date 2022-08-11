@@ -7,9 +7,14 @@
 
 import Foundation
 
+protocol PokedexManagerDelegate {
+    func didGetData(_ pokedex: [(String, String)])
+}
+
 struct PokedexManager {
     private let urlString = "https://pokeapi.co/api/v2/pokemon?limit=1154"
     private let imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
+    var delegate: PokedexManagerDelegate?
     
     func getData() {
         if let url = URL(string: urlString) {
@@ -19,15 +24,16 @@ struct PokedexManager {
                     return
                 }
                 
-                let pokedex = parseJSON(with: data)
-                print(pokedex)
+                if let pokedex = parseJSON(with: data) {
+                    delegate?.didGetData(pokedex)
+                }
             }
             
             task.resume()
         }
     }
     
-    func parseJSON(with data: Data) -> [(String, String)]{
+    func parseJSON(with data: Data) -> [(String, String)]? {
         var pokedex = [(String, String)]()
         
         do {
@@ -37,10 +43,11 @@ struct PokedexManager {
                 pokedex.append((result.name, imageUrl + "\(index + 1).png"))
             }
             
+            return pokedex
         } catch {
             print("Error decoding data: \(error)")
         }
         
-        return pokedex
+        return nil
     }
 }

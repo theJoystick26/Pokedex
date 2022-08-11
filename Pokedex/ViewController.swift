@@ -8,16 +8,19 @@
 import UIKit
 
 class ViewController: UIViewController {
-    
-    let pokedexManager = PokedexManager()
+    var pokedexManager = PokedexManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+        pokedexManager.delegate = self
         pokedexManager.getData()
     }
+}
 
-
+extension ViewController: PokedexManagerDelegate {
+    func didGetData(_ pokedex: [(String, String)]) {
+        print(pokedex)
+    }
 }
 

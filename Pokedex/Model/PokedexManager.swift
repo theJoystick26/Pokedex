@@ -12,7 +12,7 @@ protocol PokedexManagerDelegate {
 }
 
 struct PokedexManager {
-    private let urlString = "https://pokeapi.co/api/v2/pokemon?limit=1154"
+    private let urlString = "https://pokeapi.co/api/v2/pokemon?limit=151"
     private let imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
     var delegate: PokedexManagerDelegate?
     
